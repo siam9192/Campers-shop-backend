@@ -12,7 +12,8 @@ router.post(
 );
 
 router.get('/', productControllers.getProducts);
+router.get('/recommended',productControllers.getRecommendedProducts)
 router.get('/:id', productControllers.getProduct);
-router.put("/:id",validateRequest(productValidations.updateProductValidation),productControllers.updateProduct)
+router.put('/:id',validateRequest(productValidations.updateProductValidation),productControllers.updateProduct)
 router.delete('/:id', productControllers.deleteProduct);
 export const productRoutes = router;

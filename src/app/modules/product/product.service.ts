@@ -45,13 +45,20 @@ const getProductsFromDB = async (query: any) => {
   return result;
 };
 
+
 const getProductFromDB = async (id: string) => {
   const result = await Product.findById(id);
   return result;
 };
 
+const getRecommendedProductFromDB = async()=>{
+    const result = await Product.find().sort({rating:-1}).limit(12)
+    return result;
+}
+
+
 const updateProductIntoDB = async (id:string,payload:Partial<TProduct>)=>{
-    
+
     // Checking is the product exist on database
     const product = await Product.isProductExists(id)
     if(!product){
@@ -78,6 +85,7 @@ export const productServices = {
   createProductIntoDB,
   getProductsFromDB,
   getProductFromDB,
+  getRecommendedProductFromDB,
   updateProductIntoDB,
   deleteProductIntoDB,
 };

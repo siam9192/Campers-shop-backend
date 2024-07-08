@@ -27,16 +27,29 @@ const getProducts = catchAsync(async (req: Request, res: Response) => {
   sendSuccessResponse(res, responseData);
 });
 
+const getRecommendedProducts = catchAsync(async (req: Request, res: Response) => {
+    const result = await productServices.getRecommendedProductFromDB()
+    const responseData = {
+        statusCode: 200,
+        message: 'Products retrieved successfully',
+        data: result,
+      };
+    
+      sendSuccessResponse(res, responseData);
+})
+
 const getProduct = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await productServices.getProductFromDB(id);
   const responseData = {
     statusCode: 201,
-    message: 'Product created successfully',
+    message: 'Product retrieved successfully',
     data: result,
   };
   sendSuccessResponse(res, responseData);
 });
+
+
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
 
     const id = req.params.id;
@@ -65,6 +78,7 @@ export const productControllers = {
   createProduct,
   getProducts,
   getProduct,
+  getRecommendedProducts,
   updateProduct,
   deleteProduct,
 };

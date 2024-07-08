@@ -21,11 +21,11 @@ const createOrderIntoDB = async (payload: any) => {
 
  try {
     const result = await Order.create([payload],{session});
-   const updatedProduct = await Product.updateOne({_id:product._id},{$inc:{stock:-payload.quantity}},{session})
+    const updatedProduct = await Product.updateOne({_id:product._id},{$inc:{stock:-payload.quantity}},{session})
     
     if(!result || !updatedProduct.modifiedCount){
       throw new Error()
-    }
+     }
     await session.commitTransaction()
     await session.endSession()
     return result;
