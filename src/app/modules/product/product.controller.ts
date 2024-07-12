@@ -8,7 +8,7 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await productServices.createProductIntoDB(payload);
   const responseData = {
     statusCode: 201,
-    message: 'Product retrieved successfully',
+    message: 'Product created successfully',
     data: result,
   };
 
@@ -27,16 +27,30 @@ const getProducts = catchAsync(async (req: Request, res: Response) => {
   sendSuccessResponse(res, responseData);
 });
 
-const getRecommendedProducts = catchAsync(async (req: Request, res: Response) => {
-    const result = await productServices.getRecommendedProductFromDB()
+const getRecommendedProducts = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await productServices.getRecommendedProductFromDB();
     const responseData = {
-        statusCode: 200,
-        message: 'Products retrieved successfully',
-        data: result,
-      };
-    
-      sendSuccessResponse(res, responseData);
-})
+      statusCode: 200,
+      message: 'Products retrieved successfully',
+      data: result,
+    };
+
+    sendSuccessResponse(res, responseData);
+  },
+);
+const getFeaturedProducts = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await productServices.getFeaturedProductFromDB();
+    const responseData = {
+      statusCode: 200,
+      message: 'Products retrieved successfully',
+      data: result,
+    };
+
+    sendSuccessResponse(res, responseData);
+  },
+);
 
 const getProduct = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -48,22 +62,27 @@ const getProduct = catchAsync(async (req: Request, res: Response) => {
   };
   sendSuccessResponse(res, responseData);
 });
-
-
-const updateProduct = catchAsync(async (req: Request, res: Response) => {
-
-    const id = req.params.id;
-    const payload =  req.body;
-  
-
-    const result = await productServices.updateProductIntoDB(id,payload)
-    const responseData = {
-        statusCode: 201,
-        message: 'Product updated successfully',
-        data: result,
-      };
-      sendSuccessResponse(res, responseData);
+const getUserCartProduct = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body;
+  const result = await productServices.getUserCartProductsFromDB(payload)
+  const responseData = {
+    statusCode: 201,
+    message: 'User cart Products retrieved successfully',
+    data: result,
+  };
+  sendSuccessResponse(res, responseData);
 })
+const updateProduct = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const result = await productServices.updateProductIntoDB(id, payload);
+  const responseData = {
+    statusCode: 201,
+    message: 'Product updated successfully',
+    data: result,
+  };
+  sendSuccessResponse(res, responseData);
+});
 const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await productServices.deleteProductIntoDB(id);
@@ -78,7 +97,9 @@ export const productControllers = {
   createProduct,
   getProducts,
   getProduct,
+  getUserCartProduct,
   getRecommendedProducts,
+  getFeaturedProducts,
   updateProduct,
   deleteProduct,
 };

@@ -9,9 +9,9 @@ const moduleRoutes: { path: string; routes: any }[] = [
     routes: productRoutes,
   },
   {
-    path:"/orders",
-    routes:orderRoutes
-  }
+    path: '/orders',
+    routes: orderRoutes,
+  },
 ];
 
 moduleRoutes.forEach((ele) => {

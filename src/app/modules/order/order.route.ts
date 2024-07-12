@@ -5,7 +5,10 @@ import { orderControllers } from './order.controller';
 
 const router = Router();
 
-router.post('/',validateRequest(orderValidations.createOrderValidation),orderControllers.createOrder);
+router.post(
+  '/',
+  validateRequest(orderValidations.createOrderValidation),
+  orderControllers.createOrder,
+);
 
-
-export const orderRoutes = router
+export const orderRoutes = router;

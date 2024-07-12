@@ -6,13 +6,12 @@ const createOrderValidation = z.object({
     email: z.string().email(),
     phone: z.string(),
   }),
-  product:z.string(),
-  quantity:z.number(),
-  paymentMethod:z.enum(["cash on","stripe"]),
- deliveryAddress:z.string()
+  product: z.string(),
+  quantity: z.number(),
+  paymentMethod: z.enum(['cash on', 'stripe']),
+  deliveryAddress: z.string(),
 });
 
-
 export const orderValidations = {
-    createOrderValidation
-}
+  createOrderValidation,
+};
