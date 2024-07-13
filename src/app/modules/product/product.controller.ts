@@ -39,18 +39,16 @@ const getRecommendedProducts = catchAsync(
     sendSuccessResponse(res, responseData);
   },
 );
-const getFeaturedProducts = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await productServices.getFeaturedProductFromDB();
-    const responseData = {
-      statusCode: 200,
-      message: 'Products retrieved successfully',
-      data: result,
-    };
+const getFeaturedProducts = catchAsync(async (req: Request, res: Response) => {
+  const result = await productServices.getFeaturedProductFromDB();
+  const responseData = {
+    statusCode: 200,
+    message: 'Products retrieved successfully',
+    data: result,
+  };
 
-    sendSuccessResponse(res, responseData);
-  },
-);
+  sendSuccessResponse(res, responseData);
+});
 
 const getProduct = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -64,14 +62,14 @@ const getProduct = catchAsync(async (req: Request, res: Response) => {
 });
 const getUserCartProduct = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
-  const result = await productServices.getUserCartProductsFromDB(payload)
+  const result = await productServices.getUserCartProductsFromDB(payload);
   const responseData = {
     statusCode: 201,
     message: 'User cart Products retrieved successfully',
     data: result,
   };
   sendSuccessResponse(res, responseData);
-})
+});
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const payload = req.body;

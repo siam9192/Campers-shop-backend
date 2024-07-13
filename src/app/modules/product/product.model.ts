@@ -40,9 +40,12 @@ productSchema.statics.isProductExists = async (id) => {
   return await Product.findById(id);
 };
 
+productSchema.index({
+  name: 'text',
+  description: 'text',
+});
+
 export const Product = model<TProduct, TProductMethods>(
   'Product',
   productSchema,
 );
-
-

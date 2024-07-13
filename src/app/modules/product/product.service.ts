@@ -10,12 +10,12 @@ const createProductIntoDB = async (payload: TProduct) => {
 
 const getProductsFromDB = async (query: any) => {
   const filter: any = {};
-  
+
   const sort: any = {};
 
-  const minPrice = parseInt(query.minPrice) ;
+  const minPrice = parseInt(query.minPrice);
   const maxPrice = parseInt(query.maxPrice);
-  const currentPage = parseInt(query.currentPage) || 1
+  const currentPage = parseInt(query.currentPage) || 1;
   const perPage = 6;
   if (query.name) {
     filter.name = query.name;
@@ -38,15 +38,18 @@ const getProductsFromDB = async (query: any) => {
     sort.price = parseInt(query.sort);
   }
 
-  if(query.q){
-    
+  if (query.q) {
+    filter.$text = { $search: query.q };
   }
   filter.isDeleted = false;
-  const result = await Product.find(filter).sort(sort).skip((currentPage-1)*6).limit(perPage);
-  const totalProduct = await Product.find(filter).countDocuments()
+  const result = await Product.find(filter)
+    .sort(sort)
+    .skip((currentPage - 1) * 6)
+    .limit(perPage);
+  const totalProduct = await Product.find(filter).countDocuments();
   return {
-    products:result,
-    totalProduct
+    products: result,
+    totalProduct,
   };
 };
 
@@ -56,20 +59,27 @@ const getProductFromDB = async (id: string) => {
 };
 
 const getRecommendedProductFromDB = async () => {
-  const result = await Product.find({isDeleted:false}).sort({ rating: -1 }).limit(8);
+  const result = await Product.find({ isDeleted: false })
+    .sort({ rating: -1 })
+    .limit(8);
   return result;
 };
 
-const getUserCartProductsFromDB = async(payload:string[])=>{
-  const ids = payload.map((id)=>new Types.ObjectId(id))
-  const result = await Product.find({_id:{$in:[...ids]}},{_id:1,name:1,images:1,category:1,price:1,stock:1})
+const getUserCartProductsFromDB = async (payload: string[]) => {
+  const ids = payload.map((id) => new Types.ObjectId(id));
+  const result = await Product.find(
+    { _id: { $in: [...ids] } },
+    { _id: 1, name: 1, images: 1, category: 1, price: 1, stock: 1 },
+  );
   return result;
-}
+};
 
-const getFeaturedProductFromDB = async ()=>{
-  const result = await Product.find({isDeleted:false}).sort({ createAt: -1 }).limit(8);
+const getFeaturedProductFromDB = async () => {
+  const result = await Product.find({ isDeleted: false })
+    .sort({ createAt: -1 })
+    .limit(8);
   return result;
-}
+};
 const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
   // Checking is the product exist on database
   const product = await Product.isProductExists(id);
